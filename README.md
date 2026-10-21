@@ -70,6 +70,17 @@ Tests force the PyTorch reference backend so they can run on CPU. For CUDA kerne
 
 Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](SECURITY.md).
 
+## Website Analytics (Cloudflare Free)
+
+GitHub README counters are often affected by proxy/cache IPs. For reliable region stats, deploy a project homepage and track it with Cloudflare Web Analytics.
+
+1. Deploy [docs/site/index.html](docs/site/index.html) to Cloudflare Pages (Free).
+2. In Cloudflare Dashboard, enable Web Analytics for the Pages project.
+3. Replace `YOUR_CLOUDFLARE_ANALYTICS_TOKEN` in [index.html](docs/site/index.html).
+4. Publish the site (for example `https://kda-cuda-trainer.pages.dev`).
+
+After this, use Cloudflare Analytics dashboard as the primary source for real visitor geography.
+
 ## Traffic Analytics
 
 - Total visits:
