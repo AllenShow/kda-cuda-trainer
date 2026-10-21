@@ -3,83 +3,81 @@
 [![CI](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml/badge.svg)](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-语言 / Languages: [中文](README.zh-CN.md) | [English](README.en.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt.md) | [Italiano](README.it.md)
+Languages: [English](README.md) | [中文](README.zh-CN.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt.md) | [Italiano](README.it.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Русский](README.ru.md) | [العربية](README.ar.md) | [Nederlands](README.nl.md) | [हिन्दी](README.hi.md) | [Bahasa Indonesia](README.id.md)
 
-## 访问统计
+KDA CUDA Trainer is a compact, trainable causal language model example built from scratch. Its sequence-mixing module uses Kimi Delta Attention (KDA): CUDA training uses the chunked Triton kernel from FLA, and a differentiable token-by-token PyTorch reference implementation is included for readability and CPU experiments.
 
-- 总访问量（Visitor Count）：
+This repository implements a pure-KDA teaching model (not full Kimi Linear). It uses UTF-8 bytes as tokens to avoid tokenizer dependencies, and includes next-byte language modeling, AdamW, warmup/cosine LR schedule, gradient accumulation, mixed precision, validation loss, checkpoints, and sampling.
 
-  ![Visitor Count](https://api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&label=Repository%20Views&labelColor=%23697689&countColor=%23263759)
+## Requirements
 
-- 访问地区统计（FlagCounter）：
+- Python 3.10+
+- NVIDIA GPU and CUDA-enabled PyTorch
+- BF16-capable GPUs are recommended; older GPUs can use FP16
 
-  [![Flag Counter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
-
-- 访问地图统计（ClustrMaps）：
-
-  [![ClustrMaps](https://www.clustrmaps.com/map_v2.png?d=YOUR_CLUSTRMAPS_TOKEN&cl=ffffff&w=a)](https://clustrmaps.com/site/YOUR_CLUSTRMAPS_SITE_ID)
-
-  > 首次启用 ClustrMaps：到官网创建计数器后，将 `YOUR_CLUSTRMAPS_TOKEN` 和 `YOUR_CLUSTRMAPS_SITE_ID` 替换为你的值。
-
-一个从空项目搭起的、可训练的小型因果语言模型示例。序列混合模块使用 Kimi Delta Attention（KDA）：CUDA 训练通过 FLA 提供的分块 Triton kernel 执行；项目内另有一个可微的 PyTorch 逐 token 参考实现，方便阅读算法和在 CPU 上跑小型实验。
-
-这个项目实现的是一个纯 KDA 的教学模型，不是完整的 Kimi Linear。它使用 UTF-8 字节作为 token，避免额外 tokenizer 依赖；训练代码包括 next-byte 语言建模、AdamW、warmup/cosine 学习率、梯度累积、混合精度、验证 loss、checkpoint 和采样。
-
-## 环境
-
-- Python 3.10 或更新版本
-- NVIDIA GPU 和 CUDA 版 PyTorch
-- 建议使用支持 BF16 的 GPU；较旧 GPU 可以选择 FP16
-
-先按 PyTorch 官方安装说明安装与你的 CUDA 版本匹配的 PyTorch，再安装项目和 FLA CUDA kernel：
+Install CUDA-matched PyTorch first, then install the project and FLA kernel:
 
     pip install -e '.[cuda]'
 
-## 快速开始
+## Quick Start
 
-在 NVIDIA CUDA 机器上用仓库内的小文本训练：
+Train on the included tiny text corpus:
 
     python -m kda_train.train --device cuda --steps 1000
 
-训练默认读取 data/tiny.txt，checkpoint 写入 outputs/kda.pt。指定自己的 UTF-8 文本：
+Use your own UTF-8 text corpus:
 
     python -m kda_train.train --dataset /path/to/corpus.txt --device cuda --seq-len 512 --batch-size 8
 
-采样生成：
+Generate text:
 
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
 
-训练参数可用 --help 查看。模型默认 4 层、256 hidden size、4 个 KDA heads，适合先验证训练流程；实际训练建议增加数据、模型宽度和步数。
+## Backends
 
-## 后端
+- `auto`: Uses `fla.ops.kda.chunk_kda` on CUDA when `fla-core` is installed; otherwise falls back to the differentiable PyTorch reference path.
+- `fla`: Forces FLA CUDA kernel.
+- `reference`: Forces token-by-token PyTorch scan. This keeps a full graph and is not suitable for long-sequence training.
 
-- auto：CUDA 且安装了 fla-core 时调用 fla.ops.kda.chunk_kda；其他情况使用可微 PyTorch 参考实现。
-- fla：强制使用 FLA CUDA kernel。
-- reference：强制逐 token PyTorch scan。它会保留整条计算图，内存和速度都不适合长序列训练。
+Use `fla-core >= 0.5.2` to ensure KDA beta sigmoid support in CUDA path.
 
-CUDA 安装应使用 fla-core 0.5.2 或更新版本，以确保 KDA 的 beta sigmoid 选项可用。这个项目使用 FLA 的公开 kernel，不复制其 Triton kernel 源码。
+## Algorithm Summary
 
-## 算法概要
+Each head maintains a K×V state matrix. For each token, a per-key forget gate decays the state; then key-prediction error is computed and written back to value via delta rule. Query vectors read from the updated state. Each layer also includes input projection, beta and per-channel gate, output gating, and MLP.
 
-每个 head 维护一个 K×V 状态矩阵。每个 token 先用逐 key 通道的遗忘门衰减状态，再计算 key 对当前状态的预测误差，并用 delta rule 写入 value。查询向量从更新后的状态读取输出。每层还包括输入投影、beta 和逐通道 gate、输出门控及 MLP。
+This implementation prioritizes a readable training pipeline. Full Kimi Linear reproduction requires additional components such as hybrid MLA layers, short convolution, larger scale, and full training recipe.
 
-本仓库的实现以可读训练流程为目标。若要复现完整 Kimi Linear，还需要其混合 MLA 层、短卷积、模型规模和训练 recipe。
-
-## 参考
+## References
 
 - Kimi Team, [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692)
-- Moonshot AI, [Kimi-Linear 官方仓库](https://github.com/MoonshotAI/Kimi-Linear)
-- [Flash Linear Attention（FLA）KDA 实现](https://github.com/fla-org/flash-linear-attention)
+- Moonshot AI, [Kimi-Linear official repository](https://github.com/MoonshotAI/Kimi-Linear)
+- [Flash Linear Attention (FLA) KDA implementation](https://github.com/fla-org/flash-linear-attention)
 
-## 开发与贡献
+## Development and Contribution
 
-先安装测试依赖：
+Install test dependencies:
 
     pip install -e '.[test]'
     pytest -q
 
-测试强制使用 PyTorch 的 KDA 参考实现，因此可在 CPU 上验证模型的前向和反向传播；CUDA kernel 的安装与训练请使用 .[cuda] extra。提交改动前请阅读 [贡献指南](CONTRIBUTING.md)，并通过测试。
+Tests force the PyTorch reference backend so they can run on CPU. For CUDA kernel training path, use the `.[cuda]` extra. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR.
 
-## 安全问题
+## Security
 
-请不要公开披露潜在安全漏洞。报告方式见 [SECURITY.md](SECURITY.md)。
+Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](SECURITY.md).
+
+## Traffic Analytics
+
+- Total visits:
+
+  ![Visitor Count](https://api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&label=Repository%20Views&labelColor=%23697689&countColor=%23263759)
+
+- Region/country distribution (FlagCounter):
+
+  [![Flag Counter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
+
+- Visitor map (ClustrMaps):
+
+  [![ClustrMaps](https://www.clustrmaps.com/map_v2.png?d=YOUR_CLUSTRMAPS_TOKEN&cl=ffffff&w=a)](https://clustrmaps.com/site/YOUR_CLUSTRMAPS_SITE_ID)
+
+  > To enable ClustrMaps, create a counter on their website and replace `YOUR_CLUSTRMAPS_TOKEN` and `YOUR_CLUSTRMAPS_SITE_ID`.

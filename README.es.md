@@ -3,9 +3,31 @@
 [![CI](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml/badge.svg)](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml)
 [![Licencia: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-语言 / Languages: [中文](README.zh-CN.md) | [English](README.en.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt.md) | [Italiano](README.it.md)
+Languages: [English](README.md) | [中文](README.zh-CN.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt.md) | [Italiano](README.it.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Русский](README.ru.md) | [العربية](README.ar.md) | [Nederlands](README.nl.md) | [हिन्दी](README.hi.md) | [Bahasa Indonesia](README.id.md)
 
-## Analíticas de visitas
+KDA CUDA Trainer es un ejemplo compacto de modelo de lenguaje causal entrenable. El módulo de mezcla de secuencia utiliza Kimi Delta Attention (KDA): el entrenamiento en CUDA usa el chunked Triton kernel de FLA, y también incluye una implementación de referencia diferenciable en PyTorch token por token.
+
+## Requisitos
+
+- Python 3.10+
+- GPU NVIDIA y PyTorch con CUDA
+- Se recomienda GPU con BF16; en GPUs antiguas se puede usar FP16
+
+    pip install -e '.[cuda]'
+
+## Inicio rápido
+
+    python -m kda_train.train --device cuda --steps 1000
+    python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
+
+## Desarrollo
+
+    pip install -e '.[test]'
+    pytest -q
+
+Consulta [CONTRIBUTING.md](CONTRIBUTING.md) y [SECURITY.md](SECURITY.md).
+
+## Estadísticas de visitas
 
 - Visitas totales:
 
@@ -18,29 +40,3 @@
 - Mapa de visitantes (ClustrMaps):
 
   [![ClustrMaps](https://www.clustrmaps.com/map_v2.png?d=YOUR_CLUSTRMAPS_TOKEN&cl=ffffff&w=a)](https://clustrmaps.com/site/YOUR_CLUSTRMAPS_SITE_ID)
-
-  > Para activar ClustrMaps, crea un contador y reemplaza `YOUR_CLUSTRMAPS_TOKEN` y `YOUR_CLUSTRMAPS_SITE_ID`.
-
-KDA CUDA Trainer es un ejemplo compacto de modelo de lenguaje causal entrenable desde cero. El mezclador de secuencias usa Kimi Delta Attention (KDA): en CUDA se ejecuta con el kernel Triton por bloques de FLA, y también se incluye una implementación de referencia en PyTorch token por token.
-
-Este repositorio implementa un modelo educativo puro KDA (no Kimi Linear completo). Usa bytes UTF-8 como tokens e incluye next-byte LM, AdamW, warmup/cosine LR, acumulación de gradientes, precisión mixta, validación, checkpoints y muestreo.
-
-## Requisitos
-
-- Python 3.10+
-- GPU NVIDIA y PyTorch con CUDA
-- Se recomienda GPU con BF16; en GPUs antiguas puedes usar FP16
-
-    pip install -e '.[cuda]'
-
-## Inicio rápido
-
-    python -m kda_train.train --device cuda --steps 1000
-    python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
-
-## Desarrollo y contribución
-
-    pip install -e '.[test]'
-    pytest -q
-
-Revisa [CONTRIBUTING.md](CONTRIBUTING.md) antes de abrir un PR. Para reportes de seguridad: [SECURITY.md](SECURITY.md).
