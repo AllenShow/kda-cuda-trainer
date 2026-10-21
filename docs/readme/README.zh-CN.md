@@ -1,9 +1,9 @@
 # KDA CUDA Trainer
 
 [![CI](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml/badge.svg)](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE)
 
-语言 / Languages: [English](README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
+语言 / Languages: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
 
 KDA CUDA Trainer 是一个从零搭建的、可训练的小型因果语言模型示例。序列混合模块使用 Kimi Delta Attention（KDA）：CUDA 路径采用 FLA 的分块 Triton kernel，同时包含可微分的 PyTorch 逐 token 参考实现，便于阅读与 CPU 实验。
 
@@ -25,7 +25,7 @@ KDA CUDA Trainer 是一个从零搭建的、可训练的小型因果语言模型
     pip install -e '.[test]'
     pytest -q
 
-提交前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，安全问题见 [SECURITY.md](SECURITY.md)。
+提交前请阅读 [CONTRIBUTING.md](../../CONTRIBUTING.md)，安全问题见 [SECURITY.md](../../SECURITY.md)。
 
 ## 访问统计
 

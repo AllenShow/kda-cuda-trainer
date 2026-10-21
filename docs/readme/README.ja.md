@@ -1,9 +1,9 @@
 # KDA CUDA Trainer
 
 [![CI](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml/badge.svg)](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE)
 
-Languages: [English](README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
+Languages: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
 
 KDA CUDA Trainer は、ゼロから構築した小規模な学習可能因果言語モデルです。系列混合には Kimi Delta Attention (KDA) を使用し、CUDA 学習では FLA のチャンク化 Triton カーネルを使います。可読性と CPU 実験向けに、PyTorch の逐次参照実装も含まれます。
 
@@ -25,7 +25,7 @@ KDA CUDA Trainer は、ゼロから構築した小規模な学習可能因果言
     pip install -e '.[test]'
     pytest -q
 
-[CONTRIBUTING.md](CONTRIBUTING.md) と [SECURITY.md](SECURITY.md) を参照してください。
+[CONTRIBUTING.md](../../CONTRIBUTING.md) と [SECURITY.md](../../SECURITY.md) を参照してください。
 
 ## アクセス統計
 

@@ -1,9 +1,9 @@
 # KDA CUDA Trainer
 
 [![CI](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml/badge.svg)](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml)
-[![Licença: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Licença: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE)
 
-Languages: [English](README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
+Languages: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
 
 KDA CUDA Trainer é um exemplo compacto de modelo de linguagem causal treinável. O módulo de sequence-mixing usa Kimi Delta Attention (KDA): o treino em CUDA utiliza o chunked Triton kernel do FLA, com implementação de referência diferenciável em PyTorch token por token.
 
@@ -25,7 +25,7 @@ KDA CUDA Trainer é um exemplo compacto de modelo de linguagem causal treinável
     pip install -e '.[test]'
     pytest -q
 
-Veja [CONTRIBUTING.md](CONTRIBUTING.md) e [SECURITY.md](SECURITY.md).
+Veja [CONTRIBUTING.md](../../CONTRIBUTING.md) e [SECURITY.md](../../SECURITY.md).
 
 ## Estatísticas de acesso
 
