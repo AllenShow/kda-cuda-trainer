@@ -79,6 +79,8 @@ GitHub README counters are often affected by proxy/cache IPs. For reliable regio
 3. Replace `YOUR_CLOUDFLARE_ANALYTICS_TOKEN` in [index.html](docs/site/index.html).
 4. Publish the site (for example `https://kda-cuda-trainer.pages.dev`).
 
+This repository includes [wrangler.toml](wrangler.toml) with `pages_build_output_dir = "docs/site"` to reduce build auto-detection issues in Cloudflare Pages.
+
 After this, use Cloudflare Analytics dashboard as the primary source for real visitor geography.
 
 ## Traffic Analytics

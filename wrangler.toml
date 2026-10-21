@@ -1,0 +1,2 @@
+name = "kda-cuda-trainer"
+pages_build_output_dir = "docs/site"
