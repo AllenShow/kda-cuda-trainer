@@ -1,5 +1,8 @@
 # KDA CUDA Trainer
 
+[![CI](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml/badge.svg)](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 一个从空项目搭起的、可训练的小型因果语言模型示例。序列混合模块使用 Kimi Delta Attention（KDA）：CUDA 训练通过 FLA 提供的分块 Triton kernel 执行；项目内另有一个可微的 PyTorch 逐 token 参考实现，方便阅读算法和在 CPU 上跑小型实验。
 
 这个项目实现的是一个纯 KDA 的教学模型，不是完整的 Kimi Linear。它使用 UTF-8 字节作为 token，避免额外 tokenizer 依赖；训练代码包括 next-byte 语言建模、AdamW、warmup/cosine 学习率、梯度累积、混合精度、验证 loss、checkpoint 和采样。
@@ -49,4 +52,17 @@ CUDA 安装应使用 fla-core 0.5.2 或更新版本，以确保 KDA 的 beta sig
 - Kimi Team, [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692)
 - Moonshot AI, [Kimi-Linear 官方仓库](https://github.com/MoonshotAI/Kimi-Linear)
 - [Flash Linear Attention（FLA）KDA 实现](https://github.com/fla-org/flash-linear-attention)
+
+## 开发与贡献
+
+先安装测试依赖：
+
+    pip install -e '.[test]'
+    pytest -q
+
+测试强制使用 PyTorch 的 KDA 参考实现，因此可在 CPU 上验证模型的前向和反向传播；CUDA kernel 的安装与训练请使用 .[cuda] extra。提交改动前请阅读 [贡献指南](CONTRIBUTING.md)，并通过测试。
+
+## 安全问题
+
+请不要公开披露潜在安全漏洞。报告方式见 [SECURITY.md](SECURITY.md)。
 

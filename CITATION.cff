@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use KDA CUDA Trainer in academic work, please cite this software."
+title: "KDA CUDA Trainer"
+version: 0.1.0
+date-released: 2026-10-21
+license: MIT
+type: software
+repository-code: "https://github.com/AllenShow/kda-cuda-trainer"
+abstract: "A compact byte-level language model training reference using Kimi Delta Attention and CUDA kernels from Flash Linear Attention."

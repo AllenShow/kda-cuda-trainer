@@ -1,0 +1,28 @@
+name: Bug report
+description: Report a reproducible problem in training, generation, or the KDA implementation.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Explain the observed behavior and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include commands, a short script, shapes, and a small input when possible.
+      placeholder: |
+        python -m kda_train.train --device ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include OS, Python, PyTorch, CUDA, GPU, and fla-core versions.
+    validations:
+      required: true
