@@ -143,7 +143,7 @@ test("country labels are escaped and top ten shares use the total across all reg
   assert.doesNotMatch(svg, /Region 10|Region 11/);
 });
 
-test("both homepages reference one endpoint and only that route invokes a Function", async () => {
+test("website statistics and GitHub README image counters have separate scopes", async () => {
   const root = new URL("../../", import.meta.url);
   const [readme, html, routes] = await Promise.all([
     readFile(new URL("README.md", root), "utf8"),
@@ -152,6 +152,11 @@ test("both homepages reference one endpoint and only that route invokes a Functi
   ]);
   assert.ok(readme.includes("https://kda-cuda-trainer.pages.dev/stats.svg"));
   assert.ok(html.includes('src="/stats.svg"'));
-  assert.ok(!readme.includes("api.visitorbadge.io"));
+  assert.ok(readme.includes("## Official Website Traffic — Cloudflare"));
+  assert.ok(readme.includes("## GitHub Repository Traffic — VisitorBadge & FlagCounter"));
+  assert.ok(readme.includes("api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&"));
+  assert.ok(readme.includes("s05.flagcounter.com/count/WGbp/"));
+  assert.ok(!html.includes("api.visitorbadge.io"));
+  assert.ok(!html.includes("s05.flagcounter.com"));
   assert.deepEqual(JSON.parse(routes).include, ["/stats.svg"]);
 });

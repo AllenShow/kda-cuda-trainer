@@ -4,6 +4,19 @@ The project website and the root GitHub README embed the same public card:
 
 `https://kda-cuda-trainer.pages.dev/stats.svg`
 
+This card is labeled **Official Website Traffic — Cloudflare** in the root README.
+The separate **GitHub Repository Traffic — VisitorBadge & FlagCounter** section
+uses the original VisitorBadge path `AllenShow.kda-cuda-trainer` and FlagCounter ID
+`WGbp`. Those image counters are shared across README languages and are not embedded
+on the official website, so website visits do not load the repository counters.
+GitHub's image proxy/cache may affect their counts and apparent visitor regions;
+they are not GitHub's official Traffic metrics. The two sources are never summed.
+
+| Scope | Source | Display |
+| --- | --- | --- |
+| Official website | Cloudflare Web Analytics | Website homepage and the README's Official Website Traffic section |
+| GitHub README | VisitorBadge and FlagCounter | README language versions; separate GitHub Repository Traffic section in the root README |
+
 The card reports the preceding 30 days of website page views (PV), visits, and the
 top ten countries / regions by page views, including each region's share of **all**
 website page views. Cloudflare Visits are not deduplicated visitors (UV).
@@ -47,6 +60,9 @@ so counts can be estimates. These figures do not measure GitHub repository views
 中文：在现有 Pages 项目的 **设置 → 变量和机密 → Production** 中配置上面三个值，
 将 `CF_ANALYTICS_API_TOKEN` 保存为加密机密，然后重新部署。这里只需要统计读取权限。
 网站与 README 共用 `/stats.svg`，无需创建新的 Worker 或域名。
+该图片只展示官网的 Cloudflare 数据。GitHub README 访问计数使用独立的
+VisitorBadge 和 FlagCounter 区块，沿用原有计数标识；官网不嵌入这两个计数器，
+两类计数分别展示、不相加。GitHub 图片代理及缓存可能影响 README 计数与地区。
 
 ## Failure states and caching
 
