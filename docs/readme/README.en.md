@@ -9,6 +9,12 @@ KDA CUDA Trainer is a compact, trainable causal language model example built fro
 
 This repository implements a pure-KDA teaching model (not full Kimi Linear). It uses UTF-8 bytes as tokens to avoid tokenizer dependencies, and includes next-byte language modeling, AdamW, warmup/cosine LR schedule, gradient accumulation, mixed precision, validation loss, checkpoints, and sampling.
 
+## Project Website
+
+Official project homepage: [kda-cuda-trainer.pages.dev](https://kda-cuda-trainer.pages.dev/)
+
+The website is the primary public landing page for demos and analytics-backed visitor geography, while GitHub remains the canonical source for code and releases.
+
 ## Terminology
 
 For consistency across all language versions, core technical terms are kept in English: `token`, `backend`, `kernel`, `head`, `layer`, `query`, `key`, `value`, `gate`, and `delta rule`.
@@ -70,12 +76,41 @@ Tests force the PyTorch reference backend so they can run on CPU. For CUDA kerne
 
 Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](../../SECURITY.md).
 
-## Traffic Analytics
+## Website Analytics (Cloudflare Free)
 
-- Total visits:
+The existing Cloudflare Pages project serves the website and a read-only `/stats.svg`
+Pages Function. The function queries Cloudflare Web Analytics, filters the project hostname
+and site tag, and caches the statistics card for five minutes. Loading the card does not
+increment a visitor counter. These website figures are independent of the
+VisitorBadge and FlagCounter images in the GitHub Repository Traffic section below.
 
-  ![Visitor Count](https://api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&label=Repository%20Views&labelColor=%23697689&countColor=%23263759)
+See [deployment and analytics configuration](../website-analytics.md) for the three
+required Pages bindings. Until they are configured, or when the upstream API fails,
+the card explicitly reports that statistics are unavailable rather than showing fake zeros.
 
-- Region/country distribution (FlagCounter):
+## Official Website Traffic — Cloudflare
 
-  [![Flag Counter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
+[![Website traffic: last 30 days, page views, visits, and top countries / regions](https://kda-cuda-trainer.pages.dev/stats.svg)](https://kda-cuda-trainer.pages.dev/#traffic-heading)
+
+Cloudflare Web Analytics statistics for the project website over the last 30 days.
+The website and this README share the same statistics card, refreshed every five minutes
+(GitHub's image cache may delay updates). Visits are not unique visitors (UV).
+GitHub repository views are excluded. Country / region percentages use all website page views.
+
+## GitHub Repository Traffic — VisitorBadge & FlagCounter
+
+The counters below track this repository's README image requests, separately from
+the official website's Cloudflare statistics. The existing counter identifiers are
+retained and shared across the README language versions.
+
+**README views (VisitorBadge):**
+
+![GitHub README views — VisitorBadge](https://api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&label=Repository%20Views&labelColor=%23697689&countColor=%23263759)
+
+**README visitor countries / regions (FlagCounter):**
+
+[![GitHub README visitor countries / regions — FlagCounter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
+
+These are approximate image-based counters: GitHub's image proxy and cache can
+affect both counts and apparent regions. They are not GitHub's official Traffic
+metrics. Website and README counts are reported separately and are not added together.
