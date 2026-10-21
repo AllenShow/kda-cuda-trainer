@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kda-cuda-trainer"
+version = "0.1.0"
+description = "A small byte-level language model trained with Kimi Delta Attention on CUDA"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+dependencies = ["torch>=2.3"]
+
+[project.optional-dependencies]
+cuda = ["fla-core>=0.5.2"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["kda_train*"]
+
