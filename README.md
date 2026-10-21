@@ -15,33 +15,6 @@ Official project homepage: [kda-cuda-trainer.pages.dev](https://kda-cuda-trainer
 
 The website is the primary public landing page for demos and analytics-backed visitor geography, while GitHub remains the canonical source for code and releases.
 
-## Official Website Traffic — Cloudflare
-
-[![Website traffic: last 30 days, page views, visits, and top countries / regions](https://kda-cuda-trainer.pages.dev/stats.svg)](https://kda-cuda-trainer.pages.dev/#traffic-heading)
-
-Cloudflare Web Analytics statistics for the project website over the last 30 days.
-The website and this README share the same statistics card, refreshed every five minutes
-(GitHub's image cache may delay updates). Visits are not unique visitors (UV).
-GitHub repository views are excluded. Country / region percentages use all website page views.
-
-## GitHub Repository Traffic — VisitorBadge & FlagCounter
-
-The counters below track this repository's README image requests, separately from
-the official website's Cloudflare statistics. The existing counter identifiers are
-retained and shared across the README language versions.
-
-**README views (VisitorBadge):**
-
-![GitHub README views — VisitorBadge](https://api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&label=Repository%20Views&labelColor=%23697689&countColor=%23263759)
-
-**README visitor countries / regions (FlagCounter):**
-
-[![GitHub README visitor countries / regions — FlagCounter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
-
-These are approximate image-based counters: GitHub's image proxy and cache can
-affect both counts and apparent regions. They are not GitHub's official Traffic
-metrics. Website and README counts are reported separately and are not added together.
-
 ## Terminology
 
 For consistency across all language versions, core technical terms are kept in English: `token`, `backend`, `kernel`, `head`, `layer`, `query`, `key`, `value`, `gate`, and `delta rule`.
@@ -109,8 +82,35 @@ The existing Cloudflare Pages project serves the website and a read-only `/stats
 Pages Function. The function queries Cloudflare Web Analytics, filters the project hostname
 and site tag, and caches the statistics card for five minutes. Loading the card does not
 increment a visitor counter. These website figures are independent of the
-VisitorBadge and FlagCounter images in the GitHub Repository Traffic section above.
+VisitorBadge and FlagCounter images in the GitHub Repository Traffic section below.
 
 See [deployment and analytics configuration](docs/website-analytics.md) for the three
 required Pages bindings. Until they are configured, or when the upstream API fails,
 the card explicitly reports that statistics are unavailable rather than showing fake zeros.
+
+## Official Website Traffic — Cloudflare
+
+[![Website traffic: last 30 days, page views, visits, and top countries / regions](https://kda-cuda-trainer.pages.dev/stats.svg)](https://kda-cuda-trainer.pages.dev/#traffic-heading)
+
+Cloudflare Web Analytics statistics for the project website over the last 30 days.
+The website and this README share the same statistics card, refreshed every five minutes
+(GitHub's image cache may delay updates). Visits are not unique visitors (UV).
+GitHub repository views are excluded. Country / region percentages use all website page views.
+
+## GitHub Repository Traffic — VisitorBadge & FlagCounter
+
+The counters below track this repository's README image requests, separately from
+the official website's Cloudflare statistics. The existing counter identifiers are
+retained and shared across the README language versions.
+
+**README views (VisitorBadge):**
+
+![GitHub README views — VisitorBadge](https://api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&label=Repository%20Views&labelColor=%23697689&countColor=%23263759)
+
+**README visitor countries / regions (FlagCounter):**
+
+[![GitHub README visitor countries / regions — FlagCounter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
+
+These are approximate image-based counters: GitHub's image proxy and cache can
+affect both counts and apparent regions. They are not GitHub's official Traffic
+metrics. Website and README counts are reported separately and are not added together.
