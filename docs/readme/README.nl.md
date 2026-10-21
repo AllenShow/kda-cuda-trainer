@@ -19,41 +19,40 @@ KDA CUDA Trainer is een compact, trainbaar voorbeeld van een causaal taalmodel. 
 
     python -m kda_train.train --device cuda --steps 1000
 
-Use your own UTF-8 text corpus:
+Met je eigen UTF-8-tekstcorpus:
 
     python -m kda_train.train --dataset /path/to/corpus.txt --device cuda --seq-len 512 --batch-size 8
+
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
 
 ## Backends
 
-- `auto`: Uses `fla.ops.kda.chunk_kda` on CUDA when `fla-core` is installed; otherwise falls back to the differentiable PyTorch reference path.
-- `fla`: Forces FLA CUDA kernel.
-- `reference`: Forces token-by-token PyTorch scan. This keeps a full graph and is not suitable for long-sequence training.
+- `auto`: gebruikt op CUDA `fla.ops.kda.chunk_kda` als `fla-core` is geïnstalleerd; anders valt het terug op de differentieerbare PyTorch-referentie.
+- `fla`: forceert de FLA CUDA-kernel.
+- `reference`: forceert token-by-token PyTorch-scan. Dit bewaart de volledige grafiek en is niet geschikt voor lange sequenties.
 
-Use `fla-core >= 0.5.2` to ensure KDA beta sigmoid support in CUDA path.
+Voor het CUDA-pad wordt `fla-core >= 0.5.2` aanbevolen.
 
-## Algorithm Summary
+## Algoritme-overzicht
 
-Each head maintains a K×V state matrix. For each token, a per-key forget gate decays the state; then key-prediction error is computed and written back to value via delta rule. Query vectors read from the updated state. Each layer also includes input projection, beta and per-channel gate, output gating, and MLP.
+Elke head houdt een K×V-statusmatrix bij. Voor elk token dempt een per-key-kanaal forget gate de status, daarna wordt de voorspellingsfout berekend en via de delta-regel teruggeschreven naar value. Query-vectoren lezen uit de bijgewerkte status. Elke laag bevat ook inputprojectie, beta en per-kanaal gate, output-gating en MLP.
 
-This implementation prioritizes a readable training pipeline. Full Kimi Linear reproduction requires additional components such as hybrid MLA layers, short convolution, larger scale, and full training recipe.
-
-## References
+## Referenties
 
 - Kimi Team, [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692)
-- Moonshot AI, [Kimi-Linear official repository](https://github.com/MoonshotAI/Kimi-Linear)
-- [Flash Linear Attention (FLA) KDA implementation](https://github.com/fla-org/flash-linear-attention)
+- Moonshot AI, [Officiële Kimi-Linear-repository](https://github.com/MoonshotAI/Kimi-Linear)
+- [Flash Linear Attention (FLA) KDA-implementatie](https://github.com/fla-org/flash-linear-attention)
 
-## Ontwikkeling
+## Ontwikkeling en bijdragen
 
     pip install -e '.[test]'
     pytest -q
 
-Tests force the PyTorch reference backend so they can run on CPU. For CUDA kernel training path, use the `.[cuda]` extra. Please read [CONTRIBUTING.md](../../CONTRIBUTING.md) before opening a PR.
+Tests forceren de PyTorch-reference-backend en kunnen daarom op CPU draaien. Gebruik voor CUDA-training `.[cuda]`. Zie [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
-## Security
+## Beveiliging
 
-Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](../../SECURITY.md).
+Publiceer mogelijke kwetsbaarheden niet in openbare issues. Zie [SECURITY.md](../../SECURITY.md).
 
 ## Verkeersstatistieken
 

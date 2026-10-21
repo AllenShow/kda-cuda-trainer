@@ -7,21 +7,30 @@ Languages: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन�
 
 KDA CUDA Trainer is a compact, trainable causal language model example built from scratch. Its sequence-mixing module uses Kimi Delta Attention (KDA): CUDA training uses the chunked Triton kernel from FLA, and a differentiable token-by-token PyTorch reference implementation is included for readability and CPU experiments.
 
+This repository implements a pure-KDA teaching model (not full Kimi Linear). It uses UTF-8 bytes as tokens to avoid tokenizer dependencies, and includes next-byte language modeling, AdamW, warmup/cosine LR schedule, gradient accumulation, mixed precision, validation loss, checkpoints, and sampling.
+
 ## Requirements
 
 - Python 3.10+
 - NVIDIA GPU and CUDA-enabled PyTorch
 - BF16-capable GPUs are recommended; older GPUs can use FP16
 
+Install CUDA-matched PyTorch first, then install the project and FLA kernel:
+
     pip install -e '.[cuda]'
 
 ## Quick Start
+
+Train on the included tiny text corpus:
 
     python -m kda_train.train --device cuda --steps 1000
 
 Use your own UTF-8 text corpus:
 
     python -m kda_train.train --dataset /path/to/corpus.txt --device cuda --seq-len 512 --batch-size 8
+
+Generate text:
+
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
 
 ## Backends
@@ -45,6 +54,8 @@ This implementation prioritizes a readable training pipeline. Full Kimi Linear r
 - [Flash Linear Attention (FLA) KDA implementation](https://github.com/fla-org/flash-linear-attention)
 
 ## Development and Contribution
+
+Install test dependencies:
 
     pip install -e '.[test]'
     pytest -q

@@ -19,41 +19,40 @@ KDA CUDA Trainer एक कॉम्पैक्ट और trainable causal lang
 
     python -m kda_train.train --device cuda --steps 1000
 
-Use your own UTF-8 text corpus:
+अपने UTF-8 टेक्स्ट कॉर्पस के साथ:
 
     python -m kda_train.train --dataset /path/to/corpus.txt --device cuda --seq-len 512 --batch-size 8
+
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
 
-## Backends
+## बैकएंड
 
-- `auto`: Uses `fla.ops.kda.chunk_kda` on CUDA when `fla-core` is installed; otherwise falls back to the differentiable PyTorch reference path.
-- `fla`: Forces FLA CUDA kernel.
-- `reference`: Forces token-by-token PyTorch scan. This keeps a full graph and is not suitable for long-sequence training.
+- `auto`: CUDA पर `fla-core` इंस्टॉल होने पर `fla.ops.kda.chunk_kda` उपयोग करता है, अन्यथा differentiable PyTorch reference path पर जाता है।
+- `fla`: FLA CUDA kernel को force करता है।
+- `reference`: token-by-token PyTorch scan को force करता है। यह पूरा graph रखता है, इसलिए लंबी sequence training के लिए उपयुक्त नहीं है।
 
-Use `fla-core >= 0.5.2` to ensure KDA beta sigmoid support in CUDA path.
+CUDA path के लिए `fla-core >= 0.5.2` अनुशंसित है।
 
-## Algorithm Summary
+## एल्गोरिदम सारांश
 
-Each head maintains a K×V state matrix. For each token, a per-key forget gate decays the state; then key-prediction error is computed and written back to value via delta rule. Query vectors read from the updated state. Each layer also includes input projection, beta and per-channel gate, output gating, and MLP.
+हर head एक K×V state matrix बनाए रखता है। हर token पर per-key-channel forget gate state को decay करता है, फिर prediction error निकालकर delta rule से value में लिखता है। Query vectors updated state से output पढ़ते हैं। हर layer में input projection, beta और per-channel gate, output gating और MLP भी शामिल हैं।
 
-This implementation prioritizes a readable training pipeline. Full Kimi Linear reproduction requires additional components such as hybrid MLA layers, short convolution, larger scale, and full training recipe.
-
-## References
+## संदर्भ
 
 - Kimi Team, [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692)
-- Moonshot AI, [Kimi-Linear official repository](https://github.com/MoonshotAI/Kimi-Linear)
+- Moonshot AI, [Kimi-Linear आधिकारिक रिपॉज़िटरी](https://github.com/MoonshotAI/Kimi-Linear)
 - [Flash Linear Attention (FLA) KDA implementation](https://github.com/fla-org/flash-linear-attention)
 
-## विकास
+## विकास और योगदान
 
     pip install -e '.[test]'
     pytest -q
 
-Tests force the PyTorch reference backend so they can run on CPU. For CUDA kernel training path, use the `.[cuda]` extra. Please read [CONTRIBUTING.md](../../CONTRIBUTING.md) before opening a PR.
+टेस्ट PyTorch reference backend को force करते हैं, इसलिए CPU पर चल सकते हैं। CUDA kernel training path के लिए `.[cuda]` उपयोग करें। [CONTRIBUTING.md](../../CONTRIBUTING.md) देखें।
 
-## Security
+## सुरक्षा
 
-Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](../../SECURITY.md).
+कृपया संभावित सुरक्षा कमजोरियों को सार्वजनिक issue में प्रकाशित न करें। रिपोर्टिंग निर्देश [SECURITY.md](../../SECURITY.md) में हैं।
 
 ## विज़िट आँकड़े
 

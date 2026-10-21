@@ -5,7 +5,7 @@
 
 Bahasa: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
 
-KDA CUDA Trainer adalah contoh ringkas model bahasa kausal yang dapat dilatih dari nol. Modul sequence-mixing menggunakan Kimi Delta Attention (KDA): pelatihan CUDA memakai chunked Triton kernel dari FLA, dan tersedia juga implementasi referensi PyTorch token-by-token untuk keterbacaan dan eksperimen CPU.
+KDA CUDA Trainer adalah contoh ringkas model bahasa kausal yang dapat dilatih. Modul sequence-mixing menggunakan Kimi Delta Attention (KDA): pelatihan CUDA memakai chunked Triton kernel dari FLA, dan tersedia juga implementasi referensi PyTorch token-by-token yang dapat didiferensiasi.
 
 ## Persyaratan
 
@@ -19,41 +19,40 @@ KDA CUDA Trainer adalah contoh ringkas model bahasa kausal yang dapat dilatih da
 
     python -m kda_train.train --device cuda --steps 1000
 
-Use your own UTF-8 text corpus:
+Dengan corpus UTF-8 milikmu:
 
     python -m kda_train.train --dataset /path/to/corpus.txt --device cuda --seq-len 512 --batch-size 8
+
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
 
-## Backends
+## Backend
 
-- `auto`: Uses `fla.ops.kda.chunk_kda` on CUDA when `fla-core` is installed; otherwise falls back to the differentiable PyTorch reference path.
-- `fla`: Forces FLA CUDA kernel.
-- `reference`: Forces token-by-token PyTorch scan. This keeps a full graph and is not suitable for long-sequence training.
+- `auto`: memakai `fla.ops.kda.chunk_kda` di CUDA bila `fla-core` terpasang; jika tidak, fallback ke referensi PyTorch yang dapat didiferensiasi.
+- `fla`: memaksa kernel CUDA FLA.
+- `reference`: memaksa scan PyTorch token-by-token. Mode ini menyimpan graph penuh dan tidak cocok untuk urutan panjang.
 
-Use `fla-core >= 0.5.2` to ensure KDA beta sigmoid support in CUDA path.
+Untuk jalur CUDA, disarankan `fla-core >= 0.5.2`.
 
-## Algorithm Summary
+## Ringkasan algoritme
 
-Each head maintains a K×V state matrix. For each token, a per-key forget gate decays the state; then key-prediction error is computed and written back to value via delta rule. Query vectors read from the updated state. Each layer also includes input projection, beta and per-channel gate, output gating, and MLP.
+Setiap head menyimpan matriks state K×V. Untuk tiap token, forget gate per kanal key meluruhkan state, lalu error prediksi dihitung dan ditulis kembali ke value dengan aturan delta. Vektor query membaca dari state yang sudah diperbarui. Tiap layer juga mencakup proyeksi input, beta dan gate per kanal, output gate, serta MLP.
 
-This implementation prioritizes a readable training pipeline. Full Kimi Linear reproduction requires additional components such as hybrid MLA layers, short convolution, larger scale, and full training recipe.
-
-## References
+## Referensi
 
 - Kimi Team, [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692)
-- Moonshot AI, [Kimi-Linear official repository](https://github.com/MoonshotAI/Kimi-Linear)
-- [Flash Linear Attention (FLA) KDA implementation](https://github.com/fla-org/flash-linear-attention)
+- Moonshot AI, [Repositori resmi Kimi-Linear](https://github.com/MoonshotAI/Kimi-Linear)
+- [Implementasi KDA Flash Linear Attention (FLA)](https://github.com/fla-org/flash-linear-attention)
 
-## Pengembangan
+## Pengembangan dan kontribusi
 
     pip install -e '.[test]'
     pytest -q
 
-Tests force the PyTorch reference backend so they can run on CPU. For CUDA kernel training path, use the `.[cuda]` extra. Please read [CONTRIBUTING.md](../../CONTRIBUTING.md) before opening a PR.
+Pengujian memaksa backend referensi PyTorch, sehingga dapat dijalankan di CPU. Untuk jalur pelatihan kernel CUDA, gunakan `.[cuda]`. Lihat [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
-## Security
+## Keamanan
 
-Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](../../SECURITY.md).
+Jangan ungkapkan kerentanan potensial di issue publik. Panduan pelaporan ada di [SECURITY.md](../../SECURITY.md).
 
 ## Statistik Kunjungan
 

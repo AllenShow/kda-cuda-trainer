@@ -5,13 +5,13 @@
 
 اللغات: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
 
-مشروع KDA CUDA Trainer هو مثال مدمج لنموذج لغوي سببي قابل للتدريب. يستخدم Kimi Delta Attention (KDA) لخلط التسلسل: التدريب على CUDA يعتمد على chunked Triton kernel من FLA، مع وجود تنفيذ مرجعي تفاضلي في PyTorch على مستوى كل token.
+KDA CUDA Trainer هو مثال مدمج لنموذج لغوي سببي قابل للتدريب. يستخدم Kimi Delta Attention (KDA) لخلط التسلسل: مسار CUDA يعتمد على chunked Triton kernel من FLA، كما يتوفر تنفيذ مرجعي قابل للاشتقاق في PyTorch على مستوى كل token.
 
 ## المتطلبات
 
 - Python 3.10+
 - بطاقة NVIDIA ونسخة PyTorch الداعمة لـ CUDA
-- يوصى ببطاقات تدعم BF16؛ ويمكن استخدام FP16 على البطاقات الأقدم
+- يُنصح ببطاقات تدعم BF16؛ ويمكن استخدام FP16 على البطاقات الأقدم
 
     pip install -e '.[cuda]'
 
@@ -19,41 +19,40 @@
 
     python -m kda_train.train --device cuda --steps 1000
 
-Use your own UTF-8 text corpus:
+باستخدام نص UTF-8 خاص بك:
 
     python -m kda_train.train --dataset /path/to/corpus.txt --device cuda --seq-len 512 --batch-size 8
+
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
 
-## Backends
+## الواجهات الخلفية
 
-- `auto`: Uses `fla.ops.kda.chunk_kda` on CUDA when `fla-core` is installed; otherwise falls back to the differentiable PyTorch reference path.
-- `fla`: Forces FLA CUDA kernel.
-- `reference`: Forces token-by-token PyTorch scan. This keeps a full graph and is not suitable for long-sequence training.
+- `auto`: يستخدم `fla.ops.kda.chunk_kda` على CUDA عند تثبيت `fla-core`، وإلا يعود إلى تنفيذ PyTorch المرجعي القابل للاشتقاق.
+- `fla`: يفرض استخدام FLA CUDA kernel.
+- `reference`: يفرض المسح token-by-token في PyTorch. هذا المسار يحتفظ بالمخطط الكامل وغير مناسب للتسلسلات الطويلة.
 
-Use `fla-core >= 0.5.2` to ensure KDA beta sigmoid support in CUDA path.
+في مسار CUDA يُوصى باستخدام `fla-core >= 0.5.2`.
 
-## Algorithm Summary
+## ملخص الخوارزمية
 
-Each head maintains a K×V state matrix. For each token, a per-key forget gate decays the state; then key-prediction error is computed and written back to value via delta rule. Query vectors read from the updated state. Each layer also includes input projection, beta and per-channel gate, output gating, and MLP.
+يحافظ كل head على مصفوفة حالة K×V. لكل token، تقوم بوابة نسيان لكل قناة key بتوهين الحالة، ثم يُحسب خطأ التنبؤ ويُكتب مرة أخرى إلى value عبر قاعدة delta. تقرأ متجهات query من الحالة بعد التحديث. تتضمن كل طبقة أيضًا إسقاط الإدخال و beta وبوابة لكل قناة وبوابة إخراج و MLP.
 
-This implementation prioritizes a readable training pipeline. Full Kimi Linear reproduction requires additional components such as hybrid MLA layers, short convolution, larger scale, and full training recipe.
-
-## References
+## المراجع
 
 - Kimi Team, [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692)
-- Moonshot AI, [Kimi-Linear official repository](https://github.com/MoonshotAI/Kimi-Linear)
-- [Flash Linear Attention (FLA) KDA implementation](https://github.com/fla-org/flash-linear-attention)
+- Moonshot AI, [المستودع الرسمي لـ Kimi-Linear](https://github.com/MoonshotAI/Kimi-Linear)
+- [تنفيذ KDA في Flash Linear Attention (FLA)](https://github.com/fla-org/flash-linear-attention)
 
-## التطوير
+## التطوير والمساهمة
 
     pip install -e '.[test]'
     pytest -q
 
-Tests force the PyTorch reference backend so they can run on CPU. For CUDA kernel training path, use the `.[cuda]` extra. Please read [CONTRIBUTING.md](../../CONTRIBUTING.md) before opening a PR.
+تفرض الاختبارات استخدام backend المرجعي في PyTorch، لذلك يمكن تشغيلها على CPU. لمسار تدريب CUDA استخدم `.[cuda]`. راجع [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
-## Security
+## الأمان
 
-Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](../../SECURITY.md).
+يرجى عدم نشر الثغرات المحتملة في القضايا العامة. إرشادات الإبلاغ موجودة في [SECURITY.md](../../SECURITY.md).
 
 ## إحصاءات الزيارات
 

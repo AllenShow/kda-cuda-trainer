@@ -5,12 +5,12 @@
 
 Sprachen: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
 
-KDA CUDA Trainer ist ein kompaktes, trainierbares Beispiel für ein kausales Sprachmodell. Das Sequenz-Mixing nutzt Kimi Delta Attention (KDA): Auf CUDA wird der chunked Triton-Kernel aus FLA verwendet; zusätzlich gibt es eine differenzierbare PyTorch-Referenzimplementierung (tokenweise) für Lesbarkeit und CPU-Experimente.
+KDA CUDA Trainer ist ein kompaktes, trainierbares Beispiel für ein kausales Sprachmodell. Das Sequence-Mixing nutzt Kimi Delta Attention (KDA): Für CUDA-Training wird der chunked Triton-Kernel aus FLA verwendet. Zusätzlich gibt es eine differenzierbare PyTorch-Referenzimplementierung pro Token.
 
 ## Voraussetzungen
 
 - Python 3.10+
-- NVIDIA GPU und CUDA-fähiges PyTorch
+- NVIDIA-GPU und CUDA-fähiges PyTorch
 - BF16-fähige GPUs werden empfohlen; ältere GPUs können FP16 nutzen
 
     pip install -e '.[cuda]'
@@ -19,45 +19,44 @@ KDA CUDA Trainer ist ein kompaktes, trainierbares Beispiel für ein kausales Spr
 
     python -m kda_train.train --device cuda --steps 1000
 
-Use your own UTF-8 text corpus:
+Mit eigenem UTF-8-Textkorpus:
 
     python -m kda_train.train --dataset /path/to/corpus.txt --device cuda --seq-len 512 --batch-size 8
+
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
 
 ## Backends
 
-- `auto`: Uses `fla.ops.kda.chunk_kda` on CUDA when `fla-core` is installed; otherwise falls back to the differentiable PyTorch reference path.
-- `fla`: Forces FLA CUDA kernel.
-- `reference`: Forces token-by-token PyTorch scan. This keeps a full graph and is not suitable for long-sequence training.
+- `auto`: Verwendet auf CUDA mit installiertem `fla-core` `fla.ops.kda.chunk_kda`, sonst die differenzierbare PyTorch-Referenz.
+- `fla`: Erzwingt den FLA-CUDA-Kernel.
+- `reference`: Erzwingt tokenweises PyTorch-Scanning. Diese Variante hält den vollständigen Graphen und ist für lange Sequenzen ungeeignet.
 
-Use `fla-core >= 0.5.2` to ensure KDA beta sigmoid support in CUDA path.
+Für den CUDA-Pfad wird `fla-core >= 0.5.2` empfohlen.
 
-## Algorithm Summary
+## Algorithmusüberblick
 
-Each head maintains a K×V state matrix. For each token, a per-key forget gate decays the state; then key-prediction error is computed and written back to value via delta rule. Query vectors read from the updated state. Each layer also includes input projection, beta and per-channel gate, output gating, and MLP.
+Jeder Head hält eine K×V-Zustandsmatrix. Pro Token wird der Zustand zunächst mit einem key-kanalweisen Forget-Gate gedämpft, anschließend der Vorhersagefehler berechnet und per Delta-Regel in Value zurückgeschrieben. Query liest aus dem aktualisierten Zustand. Jede Schicht enthält zusätzlich Input-Projektion, Beta und kanalweises Gate, Output-Gating sowie MLP.
 
-This implementation prioritizes a readable training pipeline. Full Kimi Linear reproduction requires additional components such as hybrid MLA layers, short convolution, larger scale, and full training recipe.
-
-## References
+## Referenzen
 
 - Kimi Team, [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692)
-- Moonshot AI, [Kimi-Linear official repository](https://github.com/MoonshotAI/Kimi-Linear)
-- [Flash Linear Attention (FLA) KDA implementation](https://github.com/fla-org/flash-linear-attention)
+- Moonshot AI, [Kimi-Linear offizielles Repository](https://github.com/MoonshotAI/Kimi-Linear)
+- [Flash Linear Attention (FLA) KDA-Implementierung](https://github.com/fla-org/flash-linear-attention)
 
-## Entwicklung
+## Entwicklung und Beitrag
 
     pip install -e '.[test]'
     pytest -q
 
-Tests force the PyTorch reference backend so they can run on CPU. For CUDA kernel training path, use the `.[cuda]` extra. Please read [CONTRIBUTING.md](../../CONTRIBUTING.md) before opening a PR.
+Tests erzwingen den PyTorch-Reference-Backend und laufen daher auf CPU. Für CUDA-Training nutze `.[cuda]`. Siehe [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
-## Security
+## Sicherheit
 
-Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](../../SECURITY.md).
+Bitte veröffentliche potenzielle Sicherheitslücken nicht in öffentlichen Issues. Siehe [SECURITY.md](../../SECURITY.md).
 
 ## Zugriffsstatistiken
 
-- Gesamtaufrufe:
+- Gesamtbesuche:
 
   ![Visitor Count](https://api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&label=Repository%20Views&labelColor=%23697689&countColor=%23263759)
 

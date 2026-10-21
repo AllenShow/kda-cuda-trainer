@@ -5,7 +5,7 @@
 
 Languages: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन्दी](README.hi.md) | [Español](README.es.md) | [العربية](README.ar.md) | [Français](README.fr.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [Bahasa Indonesia](README.id.md) | [Deutsch](README.de.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md)
 
-KDA CUDA Trainer é um exemplo compacto de modelo de linguagem causal treinável. O módulo de sequence-mixing usa Kimi Delta Attention (KDA): o treino em CUDA utiliza o chunked Triton kernel do FLA, com implementação de referência diferenciável em PyTorch token por token.
+KDA CUDA Trainer é um exemplo compacto de modelo de linguagem causal treinável. O módulo de sequence-mixing usa Kimi Delta Attention (KDA): o treino em CUDA utiliza o chunked Triton kernel do FLA, e inclui também uma implementação de referência diferenciável em PyTorch token por token.
 
 ## Requisitos
 
@@ -19,41 +19,40 @@ KDA CUDA Trainer é um exemplo compacto de modelo de linguagem causal treinável
 
     python -m kda_train.train --device cuda --steps 1000
 
-Use your own UTF-8 text corpus:
+Com seu próprio corpus UTF-8:
 
     python -m kda_train.train --dataset /path/to/corpus.txt --device cuda --seq-len 512 --batch-size 8
+
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
 
 ## Backends
 
-- `auto`: Uses `fla.ops.kda.chunk_kda` on CUDA when `fla-core` is installed; otherwise falls back to the differentiable PyTorch reference path.
-- `fla`: Forces FLA CUDA kernel.
-- `reference`: Forces token-by-token PyTorch scan. This keeps a full graph and is not suitable for long-sequence training.
+- `auto`: usa `fla.ops.kda.chunk_kda` no CUDA quando `fla-core` está instalado; caso contrário, cai para a referência diferenciável em PyTorch.
+- `fla`: força o kernel CUDA do FLA.
+- `reference`: força varredura token a token em PyTorch. Mantém o grafo completo e não é adequado para sequências longas.
 
-Use `fla-core >= 0.5.2` to ensure KDA beta sigmoid support in CUDA path.
+No caminho CUDA, recomenda-se `fla-core >= 0.5.2`.
 
-## Algorithm Summary
+## Resumo do algoritmo
 
-Each head maintains a K×V state matrix. For each token, a per-key forget gate decays the state; then key-prediction error is computed and written back to value via delta rule. Query vectors read from the updated state. Each layer also includes input projection, beta and per-channel gate, output gating, and MLP.
+Cada head mantém uma matriz de estado K×V. Para cada token, uma forget gate por canal de key decai o estado; em seguida o erro de predição é calculado e escrito de volta em value pela regra delta. Vetores query leem do estado atualizado. Cada camada também inclui projeção de entrada, beta e gate por canal, gate de saída e MLP.
 
-This implementation prioritizes a readable training pipeline. Full Kimi Linear reproduction requires additional components such as hybrid MLA layers, short convolution, larger scale, and full training recipe.
-
-## References
+## Referências
 
 - Kimi Team, [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692)
-- Moonshot AI, [Kimi-Linear official repository](https://github.com/MoonshotAI/Kimi-Linear)
-- [Flash Linear Attention (FLA) KDA implementation](https://github.com/fla-org/flash-linear-attention)
+- Moonshot AI, [Repositório oficial Kimi-Linear](https://github.com/MoonshotAI/Kimi-Linear)
+- [Implementação KDA do Flash Linear Attention (FLA)](https://github.com/fla-org/flash-linear-attention)
 
-## Desenvolvimento
+## Desenvolvimento e contribuição
 
     pip install -e '.[test]'
     pytest -q
 
-Tests force the PyTorch reference backend so they can run on CPU. For CUDA kernel training path, use the `.[cuda]` extra. Please read [CONTRIBUTING.md](../../CONTRIBUTING.md) before opening a PR.
+Os testes forçam o backend de referência em PyTorch e podem rodar em CPU. Para treino com kernel CUDA, use `.[cuda]`. Veja [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
-## Security
+## Segurança
 
-Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](../../SECURITY.md).
+Não divulgue possíveis vulnerabilidades em issues públicos. Consulte [SECURITY.md](../../SECURITY.md).
 
 ## Estatísticas de acesso
 
