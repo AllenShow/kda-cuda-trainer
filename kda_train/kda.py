@@ -111,11 +111,13 @@ class KDAAttention(nn.Module):
         self.o_norm = RMSNorm(self.head_dim)
 
         self.A_log = nn.Parameter(torch.empty(num_heads, dtype=torch.float32))
-        self.dt_bias = nn.Parameter(torch.empty(num_heads, self.head_dim, dtype=torch.float32))
+        self.dt_bias = nn.Parameter(
+            torch.empty(num_heads * self.head_dim, dtype=torch.float32)
+        )
         with torch.no_grad():
             self.A_log.copy_(torch.empty(num_heads).uniform_(1.0, 16.0).log())
             dt = torch.exp(
-                torch.empty(num_heads, self.head_dim).uniform_(
+                torch.empty(num_heads * self.head_dim).uniform_(
                     torch.log(torch.tensor(0.001)).item(),
                     torch.log(torch.tensor(0.1)).item(),
                 )

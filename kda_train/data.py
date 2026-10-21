@@ -31,7 +31,7 @@ class ByteDataset:
         if max_start < 0:
             raise ValueError(
                 f"The {split} split has {source.numel()} bytes; it needs at least "
-                f"seq_len + 2 = {seq_len + 2}. Use a shorter sequence or more text."
+                f"seq_len + 1 = {seq_len + 1}. Use a shorter sequence or more text."
             )
         starts = torch.randint(max_start + 1, (batch_size,))
         offsets = torch.arange(seq_len)
