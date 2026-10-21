@@ -36,6 +36,15 @@
       .links a {
         margin-right: 16px;
       }
+      .traffic-card {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-top: 16px;
+      }
+      .traffic-note {
+        font-size: 0.9rem;
+      }
     </style>
     <!--
       Cloudflare Web Analytics is managed via Cloudflare Pages settings
@@ -49,6 +58,20 @@
         A compact, trainable causal language model example built with
         <strong>Kimi Delta Attention (KDA)</strong>, including CUDA (FLA kernel) and PyTorch reference paths.
       </p>
+
+      <section class="block" aria-labelledby="traffic-heading">
+        <h2 id="traffic-heading">Website Traffic / 网站访问统计</h2>
+        <p>Last 30 days: page views, visits, and top countries / regions.</p>
+        <a href="/stats.svg" aria-label="Open website traffic statistics at full size">
+          <img class="traffic-card" src="/stats.svg"
+            alt="Website statistics for the last 30 days: page views, visits, and country / region distribution." />
+        </a>
+        <p class="traffic-note">
+          Source: Cloudflare Web Analytics. Visits are not unique visitors (UV).
+          These figures cover this website; GitHub repository views are excluded.
+          / 数据为本站近 30 天浏览量、访问次数及国家/地区分布，访问次数不等于去重访客数。
+        </p>
+      </section>
 
       <section class="block">
         <h2>Quick Start</h2>

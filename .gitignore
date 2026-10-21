@@ -9,4 +9,8 @@ outputs/
 data/*.bin
 data/*.pt
 .DS_Store
+.dev.vars*
+.env*
+.wrangler/
+node_modules/
 

@@ -1,0 +1,35 @@
+name: Website analytics
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "website/**"
+      - "functions/**"
+      - "docs/site/**"
+      - "tests/site/**"
+      - "README.md"
+      - ".github/workflows/website.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "website/**"
+      - "functions/**"
+      - "docs/site/**"
+      - "tests/site/**"
+      - "README.md"
+      - ".github/workflows/website.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test analytics and homepage integration
+        run: node --test tests/site/*.test.mjs

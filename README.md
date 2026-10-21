@@ -15,6 +15,15 @@ Official project homepage: [kda-cuda-trainer.pages.dev](https://kda-cuda-trainer
 
 The website is the primary public landing page for demos and analytics-backed visitor geography, while GitHub remains the canonical source for code and releases.
 
+## Website Traffic
+
+[![Website traffic: last 30 days, page views, visits, and top countries / regions](https://kda-cuda-trainer.pages.dev/stats.svg)](https://kda-cuda-trainer.pages.dev/#traffic-heading)
+
+Cloudflare Web Analytics statistics for the project website over the last 30 days.
+The website and this README share the same statistics card, refreshed every five minutes
+(GitHub's image cache may delay updates). Visits are not unique visitors (UV).
+GitHub repository views are excluded. Country / region percentages use all website page views.
+
 ## Terminology
 
 For consistency across all language versions, core technical terms are kept in English: `token`, `backend`, `kernel`, `head`, `layer`, `query`, `key`, `value`, `gate`, and `delta rule`.
@@ -78,23 +87,11 @@ Please do not disclose potential vulnerabilities in public issues. Reporting gui
 
 ## Website Analytics (Cloudflare Free)
 
-GitHub README counters are often affected by proxy/cache IPs. For reliable region stats, deploy a project homepage and track it with Cloudflare Web Analytics.
+The existing Cloudflare Pages project serves the website and a read-only `/stats.svg`
+Pages Function. The function queries Cloudflare Web Analytics, filters the project hostname
+and site tag, and caches the statistics card for five minutes. Loading the card does not
+increment a visitor counter. No third-party README image counters are used for these figures.
 
-1. Deploy [docs/site/index.html](docs/site/index.html) to Cloudflare Pages (Free).
-2. In Cloudflare Dashboard, enable Web Analytics for the Pages project.
-3. Publish the site (for example `https://kda-cuda-trainer.pages.dev`).
-4. In Pages-managed analytics mode, no manual token replacement in [index.html](docs/site/index.html) is required.
-
-This repository includes [wrangler.toml](wrangler.toml) with `pages_build_output_dir = "docs/site"` to reduce build auto-detection issues in Cloudflare Pages.
-
-After this, use Cloudflare Analytics dashboard as the primary source for real visitor geography.
-
-## Traffic Analytics
-
-- Total visits:
-
-  ![Visitor Count](https://api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&label=Repository%20Views&labelColor=%23697689&countColor=%23263759)
-
-- Region/country distribution (FlagCounter):
-
-  [![Flag Counter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
+See [deployment and analytics configuration](docs/website-analytics.md) for the three
+required Pages bindings. Until they are configured, or when the upstream API fails,
+the card explicitly reports that statistics are unavailable rather than showing fake zeros.
