@@ -76,8 +76,8 @@ GitHub README counters are often affected by proxy/cache IPs. For reliable regio
 
 1. Deploy [docs/site/index.html](docs/site/index.html) to Cloudflare Pages (Free).
 2. In Cloudflare Dashboard, enable Web Analytics for the Pages project.
-3. Replace `YOUR_CLOUDFLARE_ANALYTICS_TOKEN` in [index.html](docs/site/index.html).
-4. Publish the site (for example `https://kda-cuda-trainer.pages.dev`).
+3. Publish the site (for example `https://kda-cuda-trainer.pages.dev`).
+4. In Pages-managed analytics mode, no manual token replacement in [index.html](docs/site/index.html) is required.
 
 This repository includes [wrangler.toml](wrangler.toml) with `pages_build_output_dir = "docs/site"` to reduce build auto-detection issues in Cloudflare Pages.
 
