@@ -67,7 +67,3 @@ CUDA path के लिए `fla-core >= 0.5.2` अनुशंसित है�
 - देश/क्षेत्र वितरण (FlagCounter):
 
   [![Flag Counter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
-
-- विज़िटर मैप (ClustrMaps):
-
-  [![ClustrMaps](https://www.clustrmaps.com/map_v2.png?d=YOUR_CLUSTRMAPS_TOKEN&cl=ffffff&w=a)](https://clustrmaps.com/site/YOUR_CLUSTRMAPS_SITE_ID)

@@ -67,7 +67,3 @@ CUDA 경로에서는 `fla-core >= 0.5.2`를 권장합니다.
 - 국가/지역 분포(FlagCounter):
 
   [![Flag Counter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
-
-- 방문 지도(ClustrMaps):
-
-  [![ClustrMaps](https://www.clustrmaps.com/map_v2.png?d=YOUR_CLUSTRMAPS_TOKEN&cl=ffffff&w=a)](https://clustrmaps.com/site/YOUR_CLUSTRMAPS_SITE_ID)

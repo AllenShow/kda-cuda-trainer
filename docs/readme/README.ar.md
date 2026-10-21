@@ -67,7 +67,3 @@ KDA CUDA Trainer هو مثال مدمج لنموذج لغوي سببي قابل 
 - التوزيع حسب الدول/المناطق (FlagCounter):
 
   [![Flag Counter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
-
-- خريطة الزوار (ClustrMaps):
-
-  [![ClustrMaps](https://www.clustrmaps.com/map_v2.png?d=YOUR_CLUSTRMAPS_TOKEN&cl=ffffff&w=a)](https://clustrmaps.com/site/YOUR_CLUSTRMAPS_SITE_ID)
