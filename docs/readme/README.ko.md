@@ -18,14 +18,42 @@ KDA CUDA Trainer는 처음부터 구축한 소형 학습 가능한 인과 언어
 ## 빠른 시작
 
     python -m kda_train.train --device cuda --steps 1000
+
+Use your own UTF-8 text corpus:
+
+    python -m kda_train.train --dataset /path/to/corpus.txt --device cuda --seq-len 512 --batch-size 8
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
+
+## Backends
+
+- `auto`: Uses `fla.ops.kda.chunk_kda` on CUDA when `fla-core` is installed; otherwise falls back to the differentiable PyTorch reference path.
+- `fla`: Forces FLA CUDA kernel.
+- `reference`: Forces token-by-token PyTorch scan. This keeps a full graph and is not suitable for long-sequence training.
+
+Use `fla-core >= 0.5.2` to ensure KDA beta sigmoid support in CUDA path.
+
+## Algorithm Summary
+
+Each head maintains a K×V state matrix. For each token, a per-key forget gate decays the state; then key-prediction error is computed and written back to value via delta rule. Query vectors read from the updated state. Each layer also includes input projection, beta and per-channel gate, output gating, and MLP.
+
+This implementation prioritizes a readable training pipeline. Full Kimi Linear reproduction requires additional components such as hybrid MLA layers, short convolution, larger scale, and full training recipe.
+
+## References
+
+- Kimi Team, [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692)
+- Moonshot AI, [Kimi-Linear official repository](https://github.com/MoonshotAI/Kimi-Linear)
+- [Flash Linear Attention (FLA) KDA implementation](https://github.com/fla-org/flash-linear-attention)
 
 ## 개발
 
     pip install -e '.[test]'
     pytest -q
 
-[CONTRIBUTING.md](../../CONTRIBUTING.md), [SECURITY.md](../../SECURITY.md)를 참고하세요.
+Tests force the PyTorch reference backend so they can run on CPU. For CUDA kernel training path, use the `.[cuda]` extra. Please read [CONTRIBUTING.md](../../CONTRIBUTING.md) before opening a PR.
+
+## Security
+
+Please do not disclose potential vulnerabilities in public issues. Reporting guidance is in [SECURITY.md](../../SECURITY.md).
 
 ## 방문 통계
 
