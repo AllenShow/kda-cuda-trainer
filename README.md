@@ -3,6 +3,24 @@
 [![CI](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml/badge.svg)](https://github.com/AllenShow/kda-cuda-trainer/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+语言 / Languages: [中文](README.zh-CN.md) | [English](README.en.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt.md) | [Italiano](README.it.md)
+
+## 访问统计
+
+- 总访问量（Visitor Count）：
+
+  ![Visitor Count](https://api.visitorbadge.io/api/visitors?path=AllenShow.kda-cuda-trainer&label=Repository%20Views&labelColor=%23697689&countColor=%23263759)
+
+- 访问地区统计（FlagCounter）：
+
+  [![Flag Counter](https://s05.flagcounter.com/count/WGbp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_20/viewers_1/labels_1/pageviews_1/flags_0/percent_1/)](https://info.flagcounter.com/WGbp)
+
+- 访问地图统计（ClustrMaps）：
+
+  [![ClustrMaps](https://www.clustrmaps.com/map_v2.png?d=YOUR_CLUSTRMAPS_TOKEN&cl=ffffff&w=a)](https://clustrmaps.com/site/YOUR_CLUSTRMAPS_SITE_ID)
+
+  > 首次启用 ClustrMaps：到官网创建计数器后，将 `YOUR_CLUSTRMAPS_TOKEN` 和 `YOUR_CLUSTRMAPS_SITE_ID` 替换为你的值。
+
 一个从空项目搭起的、可训练的小型因果语言模型示例。序列混合模块使用 Kimi Delta Attention（KDA）：CUDA 训练通过 FLA 提供的分块 Triton kernel 执行；项目内另有一个可微的 PyTorch 逐 token 参考实现，方便阅读算法和在 CPU 上跑小型实验。
 
 这个项目实现的是一个纯 KDA 的教学模型，不是完整的 Kimi Linear。它使用 UTF-8 字节作为 token，避免额外 tokenizer 依赖；训练代码包括 next-byte 语言建模、AdamW、warmup/cosine 学习率、梯度累积、混合精度、验证 loss、checkpoint 和采样。
@@ -65,4 +83,3 @@ CUDA 安装应使用 fla-core 0.5.2 或更新版本，以确保 KDA 的 beta sig
 ## 安全问题
 
 请不要公开披露潜在安全漏洞。报告方式见 [SECURITY.md](SECURITY.md)。
-
