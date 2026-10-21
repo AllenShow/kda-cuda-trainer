@@ -7,6 +7,10 @@
 
 KDA CUDA Trainer هو مثال مدمج لنموذج لغوي سببي قابل للتدريب. يستخدم Kimi Delta Attention (KDA) لخلط التسلسل: مسار CUDA يعتمد على chunked Triton kernel من FLA، كما يتوفر تنفيذ مرجعي قابل للاشتقاق في PyTorch على مستوى كل token.
 
+## المصطلحات
+
+لضمان الاتساق بين جميع النسخ اللغوية، نُبقي المصطلحات التقنية الأساسية باللغة الإنجليزية: `token`, `backend`, `kernel`, `head`, `layer`, `query`, `key`, `value`, `gate`, `delta rule`.
+
 ## المتطلبات
 
 - Python 3.10+

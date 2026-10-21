@@ -7,6 +7,10 @@ Languages: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन�
 
 KDA CUDA Trainer é um exemplo compacto de modelo de linguagem causal treinável. O módulo de sequence-mixing usa Kimi Delta Attention (KDA): o treino em CUDA utiliza o chunked Triton kernel do FLA, e inclui também uma implementação de referência diferenciável em PyTorch token por token.
 
+## Terminologia
+
+Para manter consistência entre todas as versões, os principais termos técnicos permanecem em inglês: `token`, `backend`, `kernel`, `head`, `layer`, `query`, `key`, `value`, `gate` e `delta rule`.
+
 ## Requisitos
 
 - Python 3.10+

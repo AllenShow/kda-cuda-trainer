@@ -9,6 +9,10 @@ KDA CUDA Trainer 是一个从零搭建的、可训练的小型因果语言模型
 
 本仓库实现的是纯 KDA 教学模型（不是完整 Kimi Linear）。它使用 UTF-8 字节作为 token，避免 tokenizer 依赖；训练流程包含 next-byte 语言建模、AdamW、warmup/cosine 学习率、梯度累积、混合精度、验证损失、checkpoint 与采样。
 
+## 术语约定
+
+为保证多语言版本一致性，核心技术术语统一保留英文：`token`、`backend`、`kernel`、`head`、`layer`、`query`、`key`、`value`、`gate`、`delta rule`。
+
 ## 环境要求
 
 - Python 3.10+

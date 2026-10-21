@@ -7,6 +7,10 @@ Languages: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन�
 
 KDA CUDA Trainer는 처음부터 구축한 소형 학습 가능한 인과 언어 모델 예제입니다. 시퀀스 혼합은 Kimi Delta Attention(KDA)을 사용하며, CUDA 학습은 FLA의 분할 Triton 커널을 사용합니다. 가독성과 CPU 실험을 위해 PyTorch 토큰 단위 참조 구현도 포함되어 있습니다.
 
+## 용어
+
+다국어 문서 간 일관성을 위해 핵심 기술 용어는 영어로 유지합니다: `token`, `backend`, `kernel`, `head`, `layer`, `query`, `key`, `value`, `gate`, `delta rule`.
+
 ## 요구 사항
 
 - Python 3.10+

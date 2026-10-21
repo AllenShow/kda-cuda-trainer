@@ -7,6 +7,10 @@ Talen: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन्द
 
 KDA CUDA Trainer is een compact, trainbaar voorbeeld van een causaal taalmodel. De sequence-mixing gebruikt Kimi Delta Attention (KDA): CUDA-training gebruikt de chunked Triton-kernel van FLA, en er is ook een differentieerbare PyTorch-referentie-implementatie per token.
 
+## Terminologie
+
+Voor consistentie tussen alle taalversies blijven de belangrijkste technische termen in het Engels: `token`, `backend`, `kernel`, `head`, `layer`, `query`, `key`, `value`, `gate` en `delta rule`.
+
 ## Vereisten
 
 - Python 3.10+

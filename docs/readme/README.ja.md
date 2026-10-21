@@ -7,6 +7,10 @@ Languages: [English](../../README.md) | [中文](README.zh-CN.md) | [हिन�
 
 KDA CUDA Trainer は、ゼロから構築した小規模な学習可能因果言語モデルです。系列混合には Kimi Delta Attention (KDA) を使用し、CUDA 学習では FLA の分割 Triton カーネルを使います。可読性と CPU 実験向けに、PyTorch の逐次参照実装も含まれます。
 
+## 用語
+
+多言語版での一貫性を保つため、主要な技術用語は英語のまま使用します：`token`、`backend`、`kernel`、`head`、`layer`、`query`、`key`、`value`、`gate`、`delta rule`。
+
 ## 動作環境
 
 - Python 3.10+

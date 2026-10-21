@@ -9,6 +9,10 @@ KDA CUDA Trainer is a compact, trainable causal language model example built fro
 
 This repository implements a pure-KDA teaching model (not full Kimi Linear). It uses UTF-8 bytes as tokens to avoid tokenizer dependencies, and includes next-byte language modeling, AdamW, warmup/cosine LR schedule, gradient accumulation, mixed precision, validation loss, checkpoints, and sampling.
 
+## Terminology
+
+For consistency across all language versions, core technical terms are kept in English: `token`, `backend`, `kernel`, `head`, `layer`, `query`, `key`, `value`, `gate`, and `delta rule`.
+
 ## Requirements
 
 - Python 3.10+
