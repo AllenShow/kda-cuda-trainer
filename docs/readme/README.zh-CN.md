@@ -22,12 +22,14 @@ KDA CUDA Trainer 是一个从零搭建的、可训练的小型因果语言模型
 ## 环境要求
 
 - Python 3.10+
-- NVIDIA GPU 与 CUDA 版 PyTorch
+- CUDA 训练需要 NVIDIA GPU 与 CUDA 版 PyTorch
 - 推荐支持 BF16 的 GPU；旧卡可使用 FP16
 
 先安装与 CUDA 匹配的 PyTorch，再安装项目和 FLA kernel：
 
     pip install -e '.[cuda]'
+
+仅进行 CPU 快速验证时，使用 `pip install -e .` 安装基础依赖即可，无需 FLA。
 
 ## 快速开始
 
@@ -42,6 +44,17 @@ KDA CUDA Trainer 是一个从零搭建的、可训练的小型因果语言模型
 生成文本：
 
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
+
+### CPU 快速验证
+
+在项目根目录运行以下命令，使用小型 reference backend 模型训练两步，
+再加载 checkpoint 生成 8 个字节：
+
+    python -m kda_train.train --device cpu --kda-backend reference --amp off --steps 2 --batch-size 1 --seq-len 16 --dim 32 --heads 2 --layers 1 --eval-interval 1 --eval-batches 1 --out outputs/cpu-smoke.pt
+    python -m kda_train.generate outputs/cpu-smoke.pt --device cpu --prompt 'Hello' --tokens 8
+
+该流程验证训练、checkpoint 保存和文本生成。两步训练不足以生成有意义的文本，
+更大规模的训练请使用 CUDA。
 
 ## 后端
 

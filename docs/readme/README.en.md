@@ -22,12 +22,14 @@ For consistency across all language versions, core technical terms are kept in E
 ## Requirements
 
 - Python 3.10+
-- NVIDIA GPU and CUDA-enabled PyTorch
+- For CUDA training: NVIDIA GPU and CUDA-enabled PyTorch
 - BF16-capable GPUs are recommended; older GPUs can use FP16
 
 Install CUDA-matched PyTorch first, then install the project and FLA kernel:
 
     pip install -e '.[cuda]'
+
+For a CPU smoke test, install the base package with `pip install -e .`; FLA is not required.
 
 ## Quick Start
 
@@ -42,6 +44,17 @@ Use your own UTF-8 text corpus:
 Generate text:
 
     python -m kda_train.generate outputs/kda.pt --prompt 'Once upon a time' --tokens 200
+
+### CPU Smoke Test
+
+From the repository root, run a tiny reference-backend model for two training steps,
+then load its checkpoint to generate eight bytes:
+
+    python -m kda_train.train --device cpu --kda-backend reference --amp off --steps 2 --batch-size 1 --seq-len 16 --dim 32 --heads 2 --layers 1 --eval-interval 1 --eval-batches 1 --out outputs/cpu-smoke.pt
+    python -m kda_train.generate outputs/cpu-smoke.pt --device cpu --prompt 'Hello' --tokens 8
+
+This checks training, checkpoint saving, and generation. Two steps are not enough to
+learn meaningful text; use CUDA for larger training runs.
 
 ## Backends
 
