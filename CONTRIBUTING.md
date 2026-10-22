@@ -15,6 +15,9 @@
     pip install -e '.[test]'
     pytest -q
 
+测试包含 CPU reference backend 的两步训练、checkpoint 保存和加载生成流程。
+该流程在临时目录保存 checkpoint，无需 GPU 或 FLA；CI 会在 Python 3.10 和 3.12 上运行。
+
 CUDA 路径还需要与本机 CUDA 匹配的 PyTorch 和 FLA：
 
     pip install -e '.[cuda]'
